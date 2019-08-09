@@ -135,5 +135,8 @@
       }
     }
   },
-  "defaultProject": "ngrx-todoList"
+  "defaultProject": "ngrx-todoList",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }
