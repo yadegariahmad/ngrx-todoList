@@ -1,0 +1,28 @@
+<div class="Auth">
+  <div class="container" [ngClass]="{'right-panel-active': mode !== 'signIn'}" id="container">
+
+    <div class="form-container sign-up-container">
+      <app-sign-up></app-sign-up>
+    </div>
+
+    <div class="form-container sign-in-container">
+      <app-login></app-login>
+    </div>
+
+    <div class="overlay-container">
+      <div class="overlay">
+        <div class="overlay-panel overlay-left">
+          <h1>Welcome Back!</h1>
+          <p>To keep connected with us please login with your personal info</p>
+          <button type="button" class="ghost auth-button" (click)="mode = 'signIn'">Sign In</button>
+        </div>
+        <div class="overlay-panel overlay-right">
+          <h1>Hello, Friend!</h1>
+          <p>Enter your personal details and start journey with us</p>
+          <button type="button" class="ghost auth-button" (click)="mode = 'SignUp'">Sign Up</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
