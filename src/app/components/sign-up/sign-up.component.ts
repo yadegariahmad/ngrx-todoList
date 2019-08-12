@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ErrorHandler } from '../../shared/errorHandler';
+import { Store } from '@ngrx/store';
+import { of } from 'rxjs';
+import { SignUpSuccess } from '../../store/actions';
+import { AppState } from '../../store/reducers';
+import { AuthService } from '../../services';
+import { ErrorHandler } from '../../shared';
 
 @Component({
   selector: 'app-sign-up',
@@ -13,7 +18,11 @@ export class SignUpComponent implements OnInit
   hidePassword = true;
   errorHandler = new ErrorHandler();
 
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private auth: AuthService,
+    private store: Store<AppState>
+  ) { }
 
   ngOnInit()
   {
@@ -27,6 +36,19 @@ export class SignUpComponent implements OnInit
 
   signUp()
   {
-    console.log(this.signUpForm.value, this.signUpForm.valid);
+    const { name, userName, email, password } = this.signUpForm.value;
+
+    this.auth.signUp(name, userName, email, password)
+      .subscribe(
+        () =>
+        {
+          this.store.dispatch(new SignUpSuccess());
+        },
+        (err) =>
+        {// dispatch error
+          console.log(err);
+          return of();
+        }
+      );
   }
 }

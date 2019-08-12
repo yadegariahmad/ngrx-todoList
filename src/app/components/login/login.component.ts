@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ErrorHandler } from '../../shared/errorHandler';
+import { Store } from '@ngrx/store';
+import { of } from 'rxjs';
+import { Login } from '../../store/actions';
+import { AppState } from '../../store/reducers';
+import { AuthService } from '../../services';
+import { ErrorHandler } from '../../shared';
+import { LoginResponse } from '../../models';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +19,10 @@ export class LoginComponent implements OnInit
   hidePassword = true;
   errorHandler = new ErrorHandler();
 
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private auth: AuthService,
+    private store: Store<AppState>) { }
 
   ngOnInit()
   {
@@ -25,7 +34,19 @@ export class LoginComponent implements OnInit
 
   login()
   {
-    console.log(this.logInForm.value, this.logInForm.valid);
-  }
+    const { email, password } = this.logInForm.value;
 
+    this.auth.logIn(email, password)
+      .subscribe(
+        (res: LoginResponse) =>
+        {
+          this.store.dispatch(new Login({ userId: res.userId }));
+        },
+        (err) =>
+        {// dispatch error
+          console.log(err);
+          return of();
+        }
+      );
+  }
 }
