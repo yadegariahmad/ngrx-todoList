@@ -12,6 +12,6 @@ export class CheckAuthGuard implements CanActivate
   {
     const userId = localStorage.getItem('userId');
 
-    return userId ? true : false;
+    return (userId && userId !== 'undefined') ? true : false;
   }
 }

@@ -38,14 +38,18 @@ export class LoginComponent implements OnInit
 
     this.auth.logIn(email, password)
       .subscribe(
-        (res: LoginResponse) =>
         {
-          this.store.dispatch(new Login({ userId: res.userId }));
-        },
-        (err) =>
-        {// dispatch error
-          console.log(err);
-          return of();
+          next: (res: LoginResponse) =>
+          {
+            console.log(res);
+            
+            this.store.dispatch(new Login({ userId: res.userId }))
+          },
+          error: (err) =>
+          {// dispatch error
+            console.log(err);
+            return of();
+          }
         }
       );
   }

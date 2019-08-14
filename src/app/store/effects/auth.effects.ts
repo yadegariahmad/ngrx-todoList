@@ -14,6 +14,8 @@ export class AuthEffects
     ofType<Login>(AuthActionTypes.LoginAction),
     tap(action =>
     {
+      console.log(action);
+      
       localStorage.setItem('userId', action.payload.userId);
       this.router.navigateByUrl('/Home');
     })
@@ -23,7 +25,7 @@ export class AuthEffects
   init$ = defer(() =>
   {
     const userData = localStorage.getItem('userId');
-    if (userData)
+    if (userData && userData !== 'undefined')
     {
       return of(new Login({ userId: userData }));
     }

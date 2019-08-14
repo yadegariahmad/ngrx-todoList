@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 import { AppState } from '../../store/reducers';
 import { didSignUp } from '../../store/selectors';
-
 
 @Component({
   selector: 'app-auth',
@@ -14,21 +11,17 @@ import { didSignUp } from '../../store/selectors';
 export class AuthComponent implements OnInit
 {
   mode = 'signIn';
-  didSignUp$: Observable<boolean>;
 
   constructor(private store: Store<AppState>) { }
 
   ngOnInit()
   {
-    this.didSignUp$ = this.store
-      .pipe(
-        select(didSignUp),
-        tap(isSignedUp =>
+    this.store
+      .select(didSignUp)
+      .subscribe(
         {
-          console.log(isSignedUp);
-
-          this.mode = isSignedUp ? 'signIn' : 'SignUp';
-        })
+          next: (isSignedUp: boolean) => this.mode = isSignedUp ? 'signIn' : 'SignUp'
+        }
       );
   }
 

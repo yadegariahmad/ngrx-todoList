@@ -4,7 +4,7 @@ export function responseHandler(okStatusNumber: number, res: Response)
 {
   if (res.status === okStatusNumber)
   {
-    return res.content;
+    return true;
   } else
   {
     throw new Error(res.message);

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, map } from 'rxjs/operators';
 import { LoginResponse, Response } from '../models';
 import { API_URL, responseHandler } from '../shared';
 
@@ -13,14 +13,12 @@ export class AuthService
 
   logIn(email: string, password: string): Observable<LoginResponse | any>
   {
-    const body = JSON.stringify({ email, password });
+    const body = { email, password };
 
     return this.http.post(`${API_URL}/auth/login`, body)
       .pipe(
-        tap((res: Response) =>
-        {
-          responseHandler(200, res);
-        })
+        tap((res: Response) => responseHandler(200, res)),
+        map(res => res.content)
       );
   }
 
@@ -29,10 +27,8 @@ export class AuthService
     const body = { name, userName, email, password };
     return this.http.post(`${API_URL}/auth/signup`, body)
       .pipe(
-        tap((res: Response) =>
-        {
-          responseHandler(201, res);
-        })
+        tap((res: Response) => responseHandler(201, res)),
+        map(res => res.content)
       );
   }
 }
