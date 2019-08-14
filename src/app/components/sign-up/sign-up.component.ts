@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { SignUpSuccess } from '../../store/actions';
+import { SignUpSuccess, ShowLoader, SetMessage } from '../../store/actions';
 import { AppState } from '../../store/reducers';
 import { AuthService } from '../../services';
-import { ErrorHandler } from '../../shared';
+import { Handler, MessageTypeEnum } from '../../shared';
 
 @Component({
   selector: 'app-sign-up',
@@ -16,12 +16,12 @@ export class SignUpComponent implements OnInit
 {
   signUpForm: FormGroup;
   hidePassword = true;
-  errorHandler = new ErrorHandler();
 
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    public handler: Handler
   ) { }
 
   ngOnInit()
@@ -37,6 +37,7 @@ export class SignUpComponent implements OnInit
   signUp()
   {
     const { name, userName, email, password } = this.signUpForm.value;
+    this.store.dispatch(new ShowLoader());
 
     this.auth.signUp(name, userName, email, password)
       .subscribe(
@@ -44,9 +45,12 @@ export class SignUpComponent implements OnInit
         {
           this.store.dispatch(new SignUpSuccess());
         },
-        (err) =>
-        {// dispatch error
-          console.log(err);
+        (err: Error) =>
+        {
+          this.store.dispatch(new SetMessage({
+            messageText: err.message,
+            messageType: MessageTypeEnum.Error
+          }));
           return of();
         }
       );

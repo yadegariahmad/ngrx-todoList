@@ -4,19 +4,19 @@
   <mat-form-field>
     <input matInput placeholder="Enter your email" type="email" formControlName="email" required>
     <mat-error *ngIf="logInForm.controls['email'].invalid">
-      {{errorHandler.getErrorMessage(logInForm.controls['email'], 'email')}}
+      {{handler.getErrorMessage(logInForm.controls['email'], 'email')}}
     </mat-error>
   </mat-form-field>
 
   <mat-form-field>
     <input matInput placeholder="Enter your password" [type]="hidePassword ? 'password' : 'text'"
       formControlName="password" required>
-    <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'"
-      [attr.aria-pressed]="hidePassword">
+    <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword"
+      [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
       <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
     </button>
     <mat-error *ngIf="logInForm.controls['password'].invalid">
-      {{errorHandler.getErrorMessage(logInForm.controls['password'], 'password')}}
+      {{handler.getErrorMessage(logInForm.controls['password'], 'password')}}
     </mat-error>
   </mat-form-field>
 

@@ -14,8 +14,6 @@ export class AuthEffects
     ofType<Login>(AuthActionTypes.LoginAction),
     tap(action =>
     {
-      console.log(action);
-      
       localStorage.setItem('userId', action.payload.userId);
       this.router.navigateByUrl('/Home');
     })

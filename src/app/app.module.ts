@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -27,6 +29,8 @@ import { reducers } from './store/reducers';
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule,
 
     StoreModule.forRoot(reducers, {
       runtimeChecks: {

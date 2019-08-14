@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
 @Injectable()
 export class CheckAuthGuard implements CanActivate
 {
+  constructor(private router: Router) { }
+
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -12,6 +14,13 @@ export class CheckAuthGuard implements CanActivate
   {
     const userId = localStorage.getItem('userId');
 
-    return (userId && userId !== 'undefined') ? true : false;
+    if (userId && userId !== 'undefined')
+    {
+      return true;
+    } else
+    {
+      this.router.navigateByUrl('/Auth');
+      return false;
+    }
   }
 }

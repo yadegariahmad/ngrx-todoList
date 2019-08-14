@@ -2,6 +2,23 @@
 
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
-html, body {
+html,
+body {
   margin: 0;
+}
+
+.snackbar-warning {
+  background: #FFCD07;
+
+  .mat-button-wrapper {
+    color: black !important; // action text color
+  }
+}
+
+.snackbar-danger {
+  background: #E33545;
+
+  .mat-button-wrapper {
+    color: black !important; // action text color
+  }
 }

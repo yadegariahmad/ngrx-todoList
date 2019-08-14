@@ -1,7 +1,29 @@
+import { Injectable } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { AppState } from '../store/reducers';
+import { HideLoader } from '../store/actions';
+import { Response } from '../models';
 
-export class ErrorHandler
+@Injectable({
+  providedIn: 'root'
+})
+export class Handler
 {
+  constructor(private store: Store<AppState>) { }
+
+  responseHandler(okStatusNumber: number, res: Response)
+  {
+    this.store.dispatch(new HideLoader());
+    if (res.status === okStatusNumber)
+    {
+      return true;
+    } else
+    {
+      throw new Error(res.message);
+    }
+  }
+
   getErrorMessage(form: FormControl, type: string)
   {
     switch (type)

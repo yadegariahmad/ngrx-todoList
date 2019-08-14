@@ -8,14 +8,14 @@
   <mat-form-field>
     <input matInput placeholder="Enter your userName" type="text" formControlName="userName" required>
     <mat-error *ngIf="signUpForm.controls['userName'].invalid">
-      {{errorHandler.getErrorMessage(signUpForm.controls['userName'],'userName')}}
+      {{handler.getErrorMessage(signUpForm.controls['userName'],'userName')}}
     </mat-error>
   </mat-form-field>
 
   <mat-form-field>
     <input matInput placeholder="Enter your email" type="email" formControlName="email" required>
     <mat-error *ngIf="signUpForm.controls['email'].invalid">
-      {{errorHandler.getErrorMessage(signUpForm.controls['email'],'email')}}
+      {{handler.getErrorMessage(signUpForm.controls['email'],'email')}}
     </mat-error>
   </mat-form-field>
 
@@ -27,7 +27,7 @@
       <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
     </button>
     <mat-error *ngIf="signUpForm.controls['password'].invalid">
-      {{errorHandler.getErrorMessage(signUpForm.controls['password'], 'password')}}
+      {{handler.getErrorMessage(signUpForm.controls['password'], 'password')}}
     </mat-error>
   </mat-form-field>
 
