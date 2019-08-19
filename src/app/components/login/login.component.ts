@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { of } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 import { Login, ShowLoader, SetMessage } from '../../store/actions';
 import { AppState } from '../../store/reducers';
 import { AuthService } from '../../services';
@@ -13,10 +13,11 @@ import { LoginResponse } from '../../models';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit
+export class LoginComponent implements OnInit, OnDestroy
 {
   logInForm: FormGroup;
   hidePassword = true;
+  loginSubs: Subscription;
 
   constructor(
     private fb: FormBuilder,
@@ -38,7 +39,8 @@ export class LoginComponent implements OnInit
     const { email, password } = this.logInForm.value;
     this.store.dispatch(new ShowLoader());
 
-    this.auth.logIn(email, password)
+    this.loginSubs = this.auth
+      .logIn(email, password)
       .subscribe(
         {
           next: (res: LoginResponse) => this.store.dispatch(new Login({ userId: res.userId })),
@@ -52,5 +54,10 @@ export class LoginComponent implements OnInit
           }
         }
       );
+  }
+
+  ngOnDestroy()
+  {
+    this.loginSubs.unsubscribe();
   }
 }

@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { Store, select } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { AppState } from './store/reducers';
 import { SetMessage } from './store/actions';
 import { showLoader, getMessage } from './store/selectors';
@@ -12,15 +12,18 @@ import { MessageTypeEnum } from './shared';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent
+export class AppComponent implements OnDestroy
 {
   showLoader: Observable<boolean>;
+  messageSelectSubs: Subscription;
+  snackBarSubs: Subscription;
 
   constructor(private store: Store<AppState>, private snackBar: MatSnackBar)
   {
     this.showLoader = this.store.pipe(select(showLoader()));
 
-    this.store.select(getMessage())
+    this.messageSelectSubs = this.store
+      .select(getMessage())
       .subscribe({
         next: (message) => this.openSnackBar(message)
       });
@@ -49,12 +52,18 @@ export class AppComponent
           break;
       }
 
-      this.snackBar
+      this.snackBarSubs = this.snackBar
         .open(message.text, 'OK', snackBarConfig)
         .afterDismissed()
         .subscribe({
           next: () => this.store.dispatch(new SetMessage({ messageText: undefined, messageType: undefined }))
         });
     }
+  }
+
+  ngOnDestroy()
+  {
+    this.messageSelectSubs.unsubscribe();
+    this.snackBarSubs.unsubscribe();
   }
 }

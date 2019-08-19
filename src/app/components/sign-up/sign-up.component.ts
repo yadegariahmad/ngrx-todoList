@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { of } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 import { SignUpSuccess, ShowLoader, SetMessage } from '../../store/actions';
 import { AppState } from '../../store/reducers';
 import { AuthService } from '../../services';
@@ -12,10 +12,11 @@ import { Handler, MessageTypeEnum } from '../../shared';
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss']
 })
-export class SignUpComponent implements OnInit
+export class SignUpComponent implements OnInit, OnDestroy
 {
   signUpForm: FormGroup;
   hidePassword = true;
+  signUpSubs: Subscription;
 
   constructor(
     private fb: FormBuilder,
@@ -39,20 +40,25 @@ export class SignUpComponent implements OnInit
     const { name, userName, email, password } = this.signUpForm.value;
     this.store.dispatch(new ShowLoader());
 
-    this.auth.signUp(name, userName, email, password)
+    this.signUpSubs = this.auth
+      .signUp(name, userName, email, password)
       .subscribe(
-        () =>
         {
-          this.store.dispatch(new SignUpSuccess());
-        },
-        (err: Error) =>
-        {
-          this.store.dispatch(new SetMessage({
-            messageText: err.message,
-            messageType: MessageTypeEnum.Error
-          }));
-          return of();
+          next: () => this.store.dispatch(new SignUpSuccess()),
+          error: (err: Error) =>
+          {
+            this.store.dispatch(new SetMessage({
+              messageText: err.message,
+              messageType: MessageTypeEnum.Error
+            }));
+            return of();
+          }
         }
       );
+  }
+
+  ngOnDestroy()
+  {
+    this.signUpSubs.unsubscribe();
   }
 }
