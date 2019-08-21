@@ -9,13 +9,13 @@ export interface SettingsState
   messageType: MessageTypeEnum;
 }
 
-export const initialAuthState: SettingsState = {
+export const initialSettingsState: SettingsState = {
   showLoader: false,
   message: undefined,
   messageType: undefined
 };
 
-export function settingsReducer(state = initialAuthState, action: SettingsActions): SettingsState
+export function settingsReducer(state = initialSettingsState, action: SettingsActions): SettingsState
 {
   switch (action.type)
   {
