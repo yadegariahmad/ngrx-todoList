@@ -1,32 +1,34 @@
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { TodoActions, TodoActionTypes } from '../actions';
+import { ToDo } from '../../models';
 
-export interface TodoState
-{
-  id: string;
-  text: string;
-  completed: boolean;
-}
+export const adapter: EntityAdapter<ToDo> = createEntityAdapter<ToDo>();
 
-export const initialTodotate: TodoState[] = [];
+export const initialTodotate: EntityState<ToDo> = adapter.getInitialState();
 
-export function settingsReducer(state = initialTodotate, action: TodoActions): TodoState[]
+export function settingsReducer(state = initialTodotate, action: TodoActions): EntityState<ToDo>
 {
   switch (action.type)
   {
-    case TodoActionTypes.GetTodos:
-      return [];
+    case TodoActionTypes.GetTodosSuccess:
+      return adapter.addAll(action.payload.todos, state);
 
-    case TodoActionTypes.AddTodo:
-      return [];
+    case TodoActionTypes.AddTodoSuccess:
+      return adapter.addOne(action.payload.todo, state);
 
-    case TodoActionTypes.EditTodo:
-      return [];
+    case TodoActionTypes.EditTodoSuccess:
+      return adapter.updateOne(action.payload.todo, state);
 
-    case TodoActionTypes.ToggleTodo:
-      return [];
+    case TodoActionTypes.ToggleTodoSuccess:
+      return adapter.map(todo =>
+        todo._id === action.payload.id
+          ? { ...todo, completed: !todo.completed }
+          : { ...todo }
+        , state
+      );
 
-    case TodoActionTypes.DeleteTodo:
-      return [];
+    case TodoActionTypes.DeleteTodoSuccess:
+      return adapter.removeOne(action.payload.id, state);
 
     default:
       return state;

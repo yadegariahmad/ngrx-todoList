@@ -47,10 +47,7 @@ export class SignUpComponent implements OnInit, OnDestroy
           next: () => this.store.dispatch(new SignUpSuccess()),
           error: (err: Error) =>
           {
-            this.store.dispatch(new SetMessage({
-              messageText: err.message,
-              messageType: MessageTypeEnum.Error
-            }));
+            this.handler.errorHandler(err);
             return of();
           }
         }

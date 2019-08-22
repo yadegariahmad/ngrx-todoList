@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState } from '../store/reducers';
-import { HideLoader } from '../store/actions';
+import { HideLoader, SetMessage } from '../store/actions';
 import { Response } from '../models';
+import { MessageTypeEnum } from './enums';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,16 @@ export class Handler
     {
       throw new Error(res.message);
     }
+  }
+
+  errorHandler(err: Error)
+  {
+    this.store.dispatch(new SetMessage(
+      {
+        messageText: err.message,
+        messageType: MessageTypeEnum.Error
+      }
+    ))
   }
 
   getErrorMessage(form: FormControl, type: string)

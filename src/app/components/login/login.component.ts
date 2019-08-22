@@ -46,10 +46,7 @@ export class LoginComponent implements OnInit, OnDestroy
           next: (res: LoginResponse) => this.store.dispatch(new Login({ userId: res.userId })),
           error: (err: Error) =>
           {
-            this.store.dispatch(new SetMessage({
-              messageText: err.message,
-              messageType: MessageTypeEnum.Error
-            }));
+            this.handler.errorHandler(err);
             return of();
           }
         }
