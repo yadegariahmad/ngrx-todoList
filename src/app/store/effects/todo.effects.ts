@@ -24,7 +24,7 @@ import
   withLatestFrom,
 } from 'rxjs/operators';
 import { AppState } from '../reducers';
-import { selectTodoState } from '../selectors';
+import { getTodos } from '../selectors';
 import { TodoService } from '../../services';
 import { ToDo } from '../../models';
 
@@ -34,8 +34,8 @@ export class TodoEffects
   @Effect()
   getTodos$ = this.actions$.pipe(
     ofType<GetTodos>(TodoActionTypes.GetTodos),
-    withLatestFrom(this.store.pipe(select(selectTodoState))),
-    filter(([, selectTodoState]) => !selectTodoState.length),
+    withLatestFrom(this.store.pipe(select(getTodos))),
+    filter(([, todos]) => !todos.length),
     mergeMap(() => this.todoService.getTodos()),
     map(todoResponse => new GetTodosSuccess({ todos: todoResponse.todos }))
   );
@@ -48,8 +48,8 @@ export class TodoEffects
         .pipe(
           map((res) =>
           {
-            const todo: ToDo = { _id: res.todoID, text: payload.text, completed: false }
-            new AddTodoSuccess({ todo });
+            const todo: ToDo = { _id: res.todoID, text: payload.text, completed: false };
+            this.store.dispatch(new AddTodoSuccess({ todo }));
           }),
         )
     ),
@@ -66,7 +66,7 @@ export class TodoEffects
             id: payload.id,
             changes: { text: payload.text }
           };
-          new EditTodoSuccess({ todo: changes });
+          this.store.dispatch(new EditTodoSuccess({ todo: changes }));
         })
       )
     )

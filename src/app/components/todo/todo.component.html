@@ -1,0 +1,37 @@
+<div class="card">
+  <div class="card-header">
+    <h1 class="card-header__date">
+      {{date | convertDigit}}
+    </h1>
+  </div>
+  <div class="card-main">
+    <h2 class="card-main__title">
+      <!-- <span>{{'card.TITLE' | translate}}</span> -->
+      <span>ToDo</span>
+    </h2>
+
+    <ul class="card-main__list">
+      <li *ngFor="let todo of todos$ | async" class="list-item" id="{{todo._id}}">
+        <div>
+          <button type="button" class="list-item__del-icon" (click)="deleteTodo(todo._id)">
+            <i class="fas fa-times fa-sm"></i>
+          </button>
+          <span class="list-item__title" [ngClass]="{'completed': todo.completed}"
+            [routerLink]="['./Add', {edit: true}]">
+            {{todo.content}}
+          </span>
+        </div>
+
+        <div class="checkbox-container">
+          <input type="checkbox" class="list-item__check" id="{{'checkbox-' + todo._id}}" [checked]="todo.completed"
+            (change)="toggleTodo(todo._id)" />
+          <label for="{{'checkbox-' + todo._id}}"></label>
+        </div>
+      </li>
+    </ul>
+
+    <button type="button" class="card-main__add-btn">
+      <i class="fas fa-plus fa-3x" style="color: white"></i>
+    </button>
+  </div>
+</div>

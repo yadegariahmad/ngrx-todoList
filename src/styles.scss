@@ -2,9 +2,15 @@
 
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
+@font-face {
+  font-family: "IRANSans";
+  src: url('./assets/fonts/IRANSans_Light.ttf') format('truetype');
+}
+
 html,
 body {
   margin: 0;
+  font-family: 'IRANSans', 'Montserrat', sans-serif;
 }
 
 .snackbar-warning {

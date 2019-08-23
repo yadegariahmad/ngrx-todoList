@@ -15,17 +15,20 @@ export class AuthEffects
     tap(action =>
     {
       localStorage.setItem('userId', action.payload.userId);
-      this.router.navigateByUrl('/Home');
+      localStorage.setItem('token', action.payload.token);
+      this.router.navigateByUrl('/Todo');
     })
   );
 
   @Effect()
   init$ = defer(() =>
   {
-    const userData = localStorage.getItem('userId');
-    if (userData && userData !== 'undefined')
+    const userId = localStorage.getItem('userId');
+    const token = localStorage.getItem('token');
+
+    if (userId && userId !== 'undefined')
     {
-      return of(new Login({ userId: userData }));
+      return of(new Login({ userId, token }));
     }
     else
     {

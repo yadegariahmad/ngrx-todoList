@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit, OnDestroy
       .logIn(email, password)
       .subscribe(
         {
-          next: (res: LoginResponse) => this.store.dispatch(new Login({ userId: res.userId })),
+          next: (res: LoginResponse) => this.store.dispatch(new Login({ userId: res.userId, token: res.token })),
           error: (err: Error) =>
           {
             this.handler.errorHandler(err);
@@ -55,6 +55,9 @@ export class LoginComponent implements OnInit, OnDestroy
 
   ngOnDestroy()
   {
-    this.loginSubs.unsubscribe();
+    if (this.loginSubs)
+    {
+      this.loginSubs.unsubscribe();
+    }
   }
 }

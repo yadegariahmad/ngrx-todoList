@@ -14,10 +14,9 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './routes';
 import { CustomSerializer } from './shared';
-
-import { AppComponent } from './app.component';
 import { reducers } from './store/reducers';
 
+import { AppComponent } from './app.component';
 
 @NgModule({
   declarations: [

@@ -10,7 +10,7 @@ export class Login implements Action
 {
   readonly type = AuthActionTypes.LoginAction;
 
-  constructor(public payload: { userId: string }) { }
+  constructor(public payload: { userId: string, token: string }) { }
 }
 
 

@@ -2,11 +2,15 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { TodoActions, TodoActionTypes } from '../actions';
 import { ToDo } from '../../models';
 
-export const adapter: EntityAdapter<ToDo> = createEntityAdapter<ToDo>();
+export const adapter: EntityAdapter<ToDo> = createEntityAdapter<ToDo>({
+  selectId: (todo: ToDo) => todo._id // use _id instead of default id
+});
 
 export const initialTodotate: EntityState<ToDo> = adapter.getInitialState();
 
-export function settingsReducer(state = initialTodotate, action: TodoActions): EntityState<ToDo>
+export interface TodoState extends EntityState<ToDo> { }
+
+export function todoReducer(state = initialTodotate, action: TodoActions): EntityState<ToDo>
 {
   switch (action.type)
   {
@@ -34,3 +38,10 @@ export function settingsReducer(state = initialTodotate, action: TodoActions): E
       return state;
   }
 }
+
+export const {
+  selectAll,
+  selectEntities,
+  selectIds,
+  selectTotal
+} = adapter.getSelectors();
