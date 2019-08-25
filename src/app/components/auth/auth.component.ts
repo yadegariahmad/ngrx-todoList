@@ -20,11 +20,9 @@ export class AuthComponent implements OnInit, OnDestroy
   {
     this.signUpSelectSubs = this.store
       .select(didSignUp)
-      .subscribe(
-        {
-          next: (isSignedUp: boolean) => this.mode = isSignedUp ? 'signIn' : 'SignUp',
-        }
-      );
+      .subscribe({
+        next: (isSignedUp: boolean) => this.mode = isSignedUp ? 'signIn' : 'SignUp',
+      });
   }
 
   ngOnDestroy()

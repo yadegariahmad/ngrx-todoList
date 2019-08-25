@@ -42,7 +42,8 @@ export class TodoService
 
   editTodo(todoId: string, text: string): Observable<any>
   {
-    const body = { content: text, todoId };
+    const userId = localStorage.getItem('userId');
+    const body = { content: text, todoId, userId };
     return this.http.put<Response>(`${API_URL}/todo/updateTodo`, body, setHTTPOptions())
       .pipe(
         tap((res: Response) => this.handler.responseHandler(200, res)),

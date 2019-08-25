@@ -15,5 +15,5 @@ export const getTodoById = (id: string) => createSelector(
 
 export const getTodoText = (todoId: string) => createSelector(
   getTodoById(todoId),
-  todo => todo.text
+  todo => todo.content
 );

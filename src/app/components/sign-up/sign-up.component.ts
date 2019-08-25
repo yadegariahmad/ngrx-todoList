@@ -2,10 +2,10 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { of, Subscription } from 'rxjs';
-import { SignUpSuccess, ShowLoader, SetMessage } from '../../store/actions';
+import { SignUpSuccess, ShowLoader } from '../../store/actions';
 import { AppState } from '../../store/reducers';
 import { AuthService } from '../../services';
-import { Handler, MessageTypeEnum } from '../../shared';
+import { Handler } from '../../shared';
 
 @Component({
   selector: 'app-sign-up',
@@ -42,16 +42,14 @@ export class SignUpComponent implements OnInit, OnDestroy
 
     this.signUpSubs = this.auth
       .signUp(name, userName, email, password)
-      .subscribe(
+      .subscribe({
+        next: () => this.store.dispatch(new SignUpSuccess()),
+        error: (err: Error) =>
         {
-          next: () => this.store.dispatch(new SignUpSuccess()),
-          error: (err: Error) =>
-          {
-            this.handler.errorHandler(err);
-            return of();
-          }
+          this.handler.errorHandler(err);
+          return of();
         }
-      );
+      });
   }
 
   ngOnDestroy()

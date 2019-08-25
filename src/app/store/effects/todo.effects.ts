@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Update } from '@ngrx/entity';
@@ -22,6 +23,7 @@ import
   mergeMap,
   filter,
   withLatestFrom,
+  tap,
 } from 'rxjs/operators';
 import { AppState } from '../reducers';
 import { getTodos } from '../selectors';
@@ -46,11 +48,8 @@ export class TodoEffects
     mergeMap(({ payload }) =>
       this.todoService.addTodo(payload.text, payload.userId)
         .pipe(
-          map((res) =>
-          {
-            const todo: ToDo = { _id: res.todoID, text: payload.text, completed: false };
-            this.store.dispatch(new AddTodoSuccess({ todo }));
-          }),
+          map(res => new AddTodoSuccess({ todo: { _id: res.todoID, content: payload.text, completed: false } })),
+          tap(() => this.router.navigateByUrl('Todo'))
         )
     ),
   );
@@ -60,14 +59,8 @@ export class TodoEffects
     ofType<EditTodo>(TodoActionTypes.EditTodo),
     mergeMap(({ payload }) => this.todoService.editTodo(payload.id, payload.text)
       .pipe(
-        map(() =>
-        {
-          const changes: Update<ToDo> = {
-            id: payload.id,
-            changes: { text: payload.text }
-          };
-          this.store.dispatch(new EditTodoSuccess({ todo: changes }));
-        })
+        map(() => new EditTodoSuccess({ todo: { id: payload.id, changes: { content: payload.text } } })),
+        tap(() => this.router.navigateByUrl('Todo'))
       )
     )
   );
@@ -93,6 +86,7 @@ export class TodoEffects
   );
 
   constructor(
+    private router: Router,
     private actions$: Actions,
     private store: Store<AppState>,
     private todoService: TodoService

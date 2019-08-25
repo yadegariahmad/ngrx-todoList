@@ -27,12 +27,13 @@ export class Handler
 
   errorHandler(err: Error)
   {
+    this.store.dispatch(new HideLoader());
     this.store.dispatch(new SetMessage(
       {
         messageText: err.message,
         messageType: MessageTypeEnum.Error
       }
-    ))
+    ));
   }
 
   getErrorMessage(form: FormControl, type: string)

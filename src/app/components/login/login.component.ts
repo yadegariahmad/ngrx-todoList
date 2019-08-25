@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { of, Subscription } from 'rxjs';
-import { Login, ShowLoader, SetMessage } from '../../store/actions';
+import { Login, ShowLoader } from '../../store/actions';
 import { AppState } from '../../store/reducers';
 import { AuthService } from '../../services';
 import { Handler, MessageTypeEnum } from '../../shared';
@@ -41,16 +41,14 @@ export class LoginComponent implements OnInit, OnDestroy
 
     this.loginSubs = this.auth
       .logIn(email, password)
-      .subscribe(
+      .subscribe({
+        next: (res: LoginResponse) => this.store.dispatch(new Login({ userId: res.userId, token: res.token })),
+        error: (err: Error) =>
         {
-          next: (res: LoginResponse) => this.store.dispatch(new Login({ userId: res.userId, token: res.token })),
-          error: (err: Error) =>
-          {
-            this.handler.errorHandler(err);
-            return of();
-          }
+          this.handler.errorHandler(err);
+          return of();
         }
-      );
+      });
   }
 
   ngOnDestroy()
