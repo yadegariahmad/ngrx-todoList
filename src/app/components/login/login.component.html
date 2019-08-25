@@ -2,14 +2,14 @@
   <h1>Sign in</h1>
   <br />
   <mat-form-field>
-    <input matInput placeholder="Enter your email" type="email" formControlName="email" required>
+    <input matInput placeholder="{{'auth.EMAIL' | translate}}" type="email" formControlName="email" required>
     <mat-error *ngIf="logInForm.controls['email'].invalid">
       {{handler.getErrorMessage(logInForm.controls['email'], 'email')}}
     </mat-error>
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput placeholder="Enter your password" [type]="hidePassword ? 'password' : 'text'"
+    <input matInput placeholder="{{'auth.PASSWORD' | translate}}" [type]="hidePassword ? 'password' : 'text'"
       formControlName="password" required>
     <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword"
       [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
@@ -20,5 +20,5 @@
     </mat-error>
   </mat-form-field>
 
-  <button class="auth-button" type="submit" [disabled]="!logInForm.valid">Sign In</button>
+  <button class="auth-button" type="submit" [disabled]="!logInForm.valid">{{'auth.log-in.TITLE' | translate}}</button>
 </form>

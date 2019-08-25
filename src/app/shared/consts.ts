@@ -7,21 +7,7 @@ export const API_URL = !environment.production
 
 export function date()
 {
-  const options = { year: 'numeric', month: 'long', day: 'numeric' };
-  let locale = document.querySelector('html').getAttribute('lang');
-  switch (locale)
-  {
-    case 'fa':
-      locale += 'IR';
-      break;
-
-    case 'en':
-    default:
-      locale += 'US';
-      break;
-  }
-
-  return new Date().toLocaleDateString(locale, options);
+  return new Date().toJSON().slice(0, 10).replace(/-/g, '/');
 }
 
 export function setHTTPOptions()

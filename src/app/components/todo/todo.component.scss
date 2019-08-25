@@ -106,6 +106,10 @@
 
   &__add-btn {
     position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
     bottom: -2.5rem;
     left: 50%;
     width: 90px;
@@ -113,6 +117,8 @@
     border-radius: 50%;
     border: none;
     background-color: rgb(138, 23, 192);
+    color: white;
+    font-size: 3.5rem;
     transform: translateX(-50%);
   }
 }

@@ -13,13 +13,17 @@
       <div class="overlay">
         <div class="overlay-panel overlay-left">
           <h1>Welcome Back!</h1>
-          <p>To keep connected with us please login with your personal info</p>
-          <button type="button" class="ghost auth-button" (click)="mode = 'signIn'">Sign In</button>
+          <p>{{'auth.sign-up.WELCOME' | translate}}</p>
+          <button type="button" class="ghost auth-button" (click)="mode = 'signIn'">
+            {{'auth.log-in.TITLE' | translate}}
+          </button>
         </div>
         <div class="overlay-panel overlay-right">
           <h1>Hello, Friend!</h1>
-          <p>Enter your personal details and start journey with us</p>
-          <button type="button" class="ghost auth-button" (click)="mode = 'SignUp'">Sign Up</button>
+          <p>{{'auth.log-in.WELCOME' | translate}}</p>
+          <button type="button" class="ghost auth-button" (click)="mode = 'SignUp'">
+            {{'auth.sign-up.TITLE' | translate}}
+          </button>
         </div>
       </div>
     </div>

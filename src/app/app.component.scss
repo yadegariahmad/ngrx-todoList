@@ -14,4 +14,11 @@
     align-items: center;
     z-index: 999;
   }
+
+  .lang-container {
+    position: absolute;
+    left: .5rem;
+    top: .5rem;
+    z-index: 666;
+  }
 }

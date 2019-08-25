@@ -2,28 +2,28 @@
   <h1>Sign up</h1>
   <br />
   <mat-form-field>
-    <input matInput placeholder="Enter your full name" type="text" formControlName="name">
+    <input matInput placeholder="{{'auth.NAME' | translate}}" type="text" formControlName="name">
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput placeholder="Enter your userName" type="text" formControlName="userName" required>
+    <input matInput placeholder="{{'auth.USER-NAME' | translate}}" type="text" formControlName="userName" required>
     <mat-error *ngIf="signUpForm.controls['userName'].invalid">
       {{handler.getErrorMessage(signUpForm.controls['userName'],'userName')}}
     </mat-error>
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput placeholder="Enter your email" type="email" formControlName="email" required>
+    <input matInput placeholder="{{'auth.EMAIL' | translate}}" type="email" formControlName="email" required>
     <mat-error *ngIf="signUpForm.controls['email'].invalid">
       {{handler.getErrorMessage(signUpForm.controls['email'],'email')}}
     </mat-error>
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput placeholder="Enter your password" [type]="hidePassword ? 'password' : 'text'"
+    <input matInput placeholder="{{'auth.PASSWORD' | translate}}" [type]="hidePassword ? 'password' : 'text'"
       formControlName="password" required>
-    <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'"
-      [attr.aria-pressed]="hidePassword">
+    <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword"
+      [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
       <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
     </button>
     <mat-error *ngIf="signUpForm.controls['password'].invalid">
@@ -31,5 +31,5 @@
     </mat-error>
   </mat-form-field>
 
-  <button class="auth-button" type="submit" [disabled]="!signUpForm.valid">Sign Up</button>
+  <button class="auth-button" type="submit" [disabled]="!signUpForm.valid">{{'auth.sign-up.TITLE' | translate}}</button>
 </form>

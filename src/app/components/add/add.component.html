@@ -3,8 +3,7 @@
     <textarea cols="70" rows="10" placeholder="TODO Content" class="input" [(ngModel)]="content"></textarea>
     <br />
     <button class="btn-add" type="button" (click)="submit()">
-      <!-- <Trans i18nKey="card.SUBMIT" /> -->
-      <span>Submit</span>
+      <span>{{'card.SUBMIT' | translate}}</span>
     </button>
   </div>
 </div>

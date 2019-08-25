@@ -2,6 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
+import { AppTranslateService } from './services';
 import { AppState } from './store/reducers';
 import { SetMessage } from './store/actions';
 import { showLoader, getMessage } from './store/selectors';
@@ -18,7 +19,7 @@ export class AppComponent implements OnDestroy
   messageSelectSubs: Subscription;
   snackBarSubs: Subscription;
 
-  constructor(private store: Store<AppState>, private snackBar: MatSnackBar)
+  constructor(private store: Store<AppState>, private snackBar: MatSnackBar, public translate: AppTranslateService)
   {
     this.showLoader = this.store.pipe(select(showLoader()));
 

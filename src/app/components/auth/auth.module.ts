@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { authReducer } from '../../store/reducers/auth.reducer';
@@ -29,6 +30,7 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    TranslateModule,
     RouterModule.forChild(routes),
     StoreModule.forFeature('auth', authReducer),
     EffectsModule.forFeature([AuthEffects]),
@@ -39,6 +41,8 @@ const routes: Routes = [
     MatInputModule,
     MatIconModule
   ],
+
+  exports: [TranslateModule],
 
   providers: [AuthService]
 })
