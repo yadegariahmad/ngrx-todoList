@@ -40,7 +40,6 @@
       align-content: center;
       margin: 1rem 0;
       border-bottom: rgb(204, 202, 202) 1px solid;
-      transition: opacity 1s ease-in-out;
 
       &__del-icon {
         margin-right: 0.5rem;
@@ -102,6 +101,10 @@
       }
 
     }
+  }
+
+  &__title {
+    margin: 0;
   }
 
   &__add-btn {

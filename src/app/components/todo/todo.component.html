@@ -13,7 +13,7 @@
       <li *ngFor="let todo of todos$ | async" class="list-item" id="{{todo._id}}">
         <div>
           <button type="button" class="list-item__del-icon" (click)="deleteTodo(todo._id)">
-            <i class="fas fa-times fa-sm"></i>
+            <mat-icon>delete_forever</mat-icon>
           </button>
           <span class="list-item__title" [ngClass]="{'completed': todo.completed}" routerLink="./Add"
             [queryParams]="{edit: true, id: todo._id}">
